@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sumas y Restas hasta el 20</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #87ceeb, #fff8dc);
+    text-align:center;
+    margin:0;
+    padding:20px;
+}
+
+h1{
+    color:#ff6600;
+    font-size:2.2em;
+}
+
+.contenedor{
+    max-width:500px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+#operacion{
+    font-size:3em;
+    margin:25px 0;
+    color:#4b0082;
+    font-weight:bold;
+}
+
+input{
+    font-size:2em;
+    width:120px;
+    text-align:center;
+    padding:10px;
+    border:3px solid #4CAF50;
+    border-radius:10px;
+}
+
+button{
+    font-size:1.2em;
+    padding:12px 20px;
+    margin:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    color:white;
+}
+
+#comprobar{
+    background:#4CAF50;
+}
+
+#nueva{
+    background:#2196F3;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+#mensaje{
+    font-size:1.5em;
+    margin-top:20px;
+    font-weight:bold;
+}
+
+#estrellas{
+    font-size:1.8em;
+    margin-top:20px;
+}
+
+.emoji{
+    font-size:3em;
+    margin:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌟 Sumas y Restas hasta el 20 🌟</h1>
+
+<div class="contenedor">
+
+<div class="emoji">🧮🐻📚</div>
+
+<div id="operacion"></div>
+
+<input type="number" id="respuesta" min="0" max="20">
+
+<br>
+
+<button id="comprobar">✅ Comprobar</button>
+<button id="nueva">🔄 Nueva cuenta</button>
+
+<div id="mensaje"></div>
+
+<div id="estrellas">
+⭐ Estrellas: <span id="puntos">0</span>
+</div>
+
+</div>
+
+<script>
+let solucion = 0;
+let puntos = 0;
+
+function nuevaOperacion() {
+
+    const tipo = Math.random() < 0.5 ? "+" : "-";
+
+    let num1, num2;
+
+    if(tipo === "+"){
+        num1 = Math.floor(Math.random()*11);
+        num2 = Math.floor(Math.random()*(21-num1));
+        solucion = num1 + num2;
+    }else{
+        num1 = Math.floor(Math.random()*21);
+        num2 = Math.floor(Math.random()*(num1+1));
+        solucion = num1 - num2;
+    }
+
+    document.getElementById("operacion").textContent =
+        `${num1} ${tipo} ${num2} = ?`;
+
+    document.getElementById("respuesta").value = "";
+    document.getElementById("mensaje").textContent = "";
+    document.getElementById("respuesta").focus();
+}
+
+function comprobar() {
+
+    const respuesta = Number(
+        document.getElementById("respuesta").value
+    );
+
+    if(document.getElementById("respuesta").value === ""){
+        document.getElementById("mensaje").textContent =
+        "😊 Escribe una respuesta";
+        return;
+    }
+
+    if(respuesta === solucion){
+
+        puntos++;
+        document.getElementById("puntos").textContent = puntos;
+
+        const mensajes = [
+            "🎉 ¡Muy bien!",
+            "🌟 ¡Excelente!",
+            "👏 ¡Lo has conseguido!",
+            "🥳 ¡Genial!",
+            "🐻 ¡Eres un campeón!"
+        ];
+
+        const aleatorio =
+        mensajes[Math.floor(Math.random()*mensajes.length)];
+
+        document.getElementById("mensaje").textContent = aleatorio;
+
+        setTimeout(nuevaOperacion, 1200);
+
+    } else {
+
+        document.getElementById("mensaje").textContent =
+        "💡 Inténtalo otra vez";
+    }
+}
+
+document.getElementById("comprobar")
+        .addEventListener("click", comprobar);
+
+document.getElementById("nueva")
+        .addEventListener("click", nuevaOperacion);
+
+document.getElementById("respuesta")
+        .addEventListener("keydown", function(e){
+            if(e.key === "Enter"){
+                comprobar();
+            }
+        });
+
+nuevaOperacion();
+</script>
+
+</body>
+</html>
